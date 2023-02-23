@@ -3,7 +3,7 @@ package Skyscrapers;
 import java.util.ArrayList;
 
 public class Skyscrapers {
-    private Steps steps;
+    private Steps steps = new Steps();
     SkyscrapersInfo sky = new SkyscrapersInfo();
 
     public Skyscrapers(int n, ArrayList arrayList) {
@@ -14,21 +14,24 @@ public class Skyscrapers {
         ArrayList<Integer> t = new ArrayList<>();
         for (int i = 1; i <= n; i++) t.add(i);
         ArrayList<ArrayList<Integer>> temp = new ArrayList<>();
-        for (int i = 0; i < n * n; i++) temp.add(t);
+//        for (int i = 0; i < n * n; i++) temp.add(t);
+        for (int i = 0; i < n * n; i++) temp.add(new ArrayList<Integer>());
+        for (int i = 0; i < n * n; i++) temp.get(i).addAll(t);
 
         sky.setCandidate(temp);
     }
 
     public void Solve() {
-//        steps.EdgeClueInitialization(sky);
+        steps.EdgeClueInitialization(sky);
     }
 
     public void Answer() {
-        for (int i = 0; i < sky.getBoardSize(); i++) {
-            for (int j = 0; j < sky.getBoardSize(); j++) {
-//                System.out.print(sky.getAnswerBoard()[i * 6 + j] + " ");
+        int n = sky.getBoardSize();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+//                System.out.print(sky.getAnswerBoard()[i * n + j] + " ");
                 // for debug purposes
-                System.out.println("data " + i + "," + j + ": " + sky.getCandidate().get(i * 6 + j) + " ");
+                System.out.println("data " + i + "," + j + ": " + sky.getCandidate().get(i * n + j) + " ");
             }
             System.out.println();
         }
