@@ -5,19 +5,19 @@ public class Steps {
     private int[] index;
 
     // initial setting for given hints
-    public void EdgeClueInitialization(SkyscrapersInfo info) {
+    public void edgeClueInitialization(SkyscrapersInfo info) {
         N = info.getBoardSize();
         index = new int[N];
         for (int i = 0; i < 4 * N; i++) {
             if (info.getGivenHints().get(i) != 0) {
-                IndexSetting(i);
-                EdgeConstraintRule(info.getGivenHints().get(i), info);
+                indexSetting(i);
+                edgeConstraintRule(info.getGivenHints().get(i), info);
             }
         }
     }
 
     // taking one column/row for each given "hint"
-    private void IndexSetting(int hintNum) {
+    private void indexSetting(int hintNum) {
         int num = hintNum % N;
         switch (hintNum / N) {
             case 0: // direction : down
@@ -40,31 +40,24 @@ public class Steps {
                 }
                 break;
         }
-        // debug purposes - prints the current column/row indexes.
-//        System.out.println(Arrays.toString(index));
     }
 
     // eliminate some candidate for given hint.
     // possible of finding certain digits from this process
     // example : 1 or N hint.
-    private void EdgeConstraintRule(int hint, SkyscrapersInfo info) {
+    private void edgeConstraintRule(int hint, SkyscrapersInfo info) {
         if (hint == 1) {
             // the first square is always N.
             // the rest of the square remove the N from candidate.
-            info.getAnswerBoard()[index[0]] = N;
-            info.EliminateCandidateFromFoundDigit(index[0]);
+            info.resolveCell(index[0], N);
         } else if (hint == N) {
             // the answer is 1 2 ... N-1 N (the only way)
-            for (int i = 0; i < N; i++) {
-                info.getAnswerBoard()[index[i]] = i + 1;
-                info.EliminateCandidateFromFoundDigit(index[i]);
-            }
+            for (int i = 0; i < N; i++) info.resolveCell(index[i], i + 1);
         } else {
             // 1 < hint < N
             for (int k = 0; k < N; k++)
                 for (int i = N + k + 2 - hint; i <= N; i++)
                     info.getCandidate().get(index[k]).remove(Integer.valueOf(i));
-
         }
     }
 }

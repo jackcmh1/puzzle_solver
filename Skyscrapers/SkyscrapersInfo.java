@@ -10,12 +10,19 @@ import java.util.Set;
 @Getter
 @Setter
 public class SkyscrapersInfo {
-    private int boardSize; // -> square which one side is length N.
+    private int boardSize; // a square board which one side is length N.
     private ArrayList<Integer> givenHints = new ArrayList<>(); // 4 * N long
     private int[] answerBoard; // N * N square board
-    private ArrayList<ArrayList<Integer>> candidate; // N * N long
+    private ArrayList<ArrayList<Integer>> candidate; // 1D N * N long list which each has "1~N" list in it
 
-    public void EliminateCandidateFromFoundDigit(int index) {
+    // when we resolve a cell, we put the value in the answerBoard
+    // and eliminate candidate that is the same row or column.
+    public void resolveCell(int index, int value) {
+        answerBoard[index] = value;
+        eliminateCandidateFromFoundDigit(index);
+    }
+
+    public void eliminateCandidateFromFoundDigit(int index) {
         Set<Integer> indexSet = new HashSet<>();
         int row = index / boardSize;
         int col = index % boardSize;

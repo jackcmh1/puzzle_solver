@@ -20,11 +20,11 @@ public class Skyscrapers {
         sky.setCandidate(temp);
     }
 
-    public void Solve() {
-        steps.EdgeClueInitialization(sky);
+    public void solveBoard() {
+        steps.edgeClueInitialization(sky);
     }
 
-    public void Answer() {
+    public void answerBoard() {
         int n = sky.getBoardSize();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
