@@ -14,8 +14,7 @@ public class Skyscrapers {
         ArrayList<Integer> t = new ArrayList<>();
         for (int i = 1; i <= n; i++) t.add(i);
         ArrayList<ArrayList<Integer>> temp = new ArrayList<>();
-//        for (int i = 0; i < n * n; i++) temp.add(t);
-        for (int i = 0; i < n * n; i++) temp.add(new ArrayList<Integer>());
+        for (int i = 0; i < n * n; i++) temp.add(new ArrayList<>());
         for (int i = 0; i < n * n; i++) temp.get(i).addAll(t);
 
         sky.setCandidate(temp);

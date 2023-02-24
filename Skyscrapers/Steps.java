@@ -52,12 +52,12 @@ public class Steps {
             // the first square is always N.
             // the rest of the square remove the N from candidate.
             info.getAnswerBoard()[index[0]] = N;
-            // TODO 한칸 채워질 때마다 가로세로 후보 제외하기
+            info.EliminateCandidateFromFoundDigit(index[0]);
         } else if (hint == N) {
             // the answer is 1 2 ... N-1 N (the only way)
             for (int i = 0; i < N; i++) {
-                info.getAnswerBoard()[index[i]] = i;
-                // TODO 한칸 채워질 때마다 가로세로 후보 제외하기
+                info.getAnswerBoard()[index[i]] = i + 1;
+                info.EliminateCandidateFromFoundDigit(index[i]);
             }
         } else {
             // 1 < hint < N
