@@ -14,11 +14,13 @@ public class SkyscrapersInfo {
     private ArrayList<Integer> givenHints = new ArrayList<>(); // 4 * N long
     private int[] answerBoard; // N * N square board
     private ArrayList<ArrayList<Integer>> candidate; // 1D N * N long list which each has "1~N" list in it
+    private int countUnansweredCell;
 
     // when we resolve a cell, we put the value in the answerBoard
     // and eliminate candidate that is the same row or column.
     public void resolveCell(int index, int value) {
         answerBoard[index] = value;
+        countUnansweredCell--;
         eliminateCandidateFromFoundDigit(index);
     }
 

@@ -1,5 +1,7 @@
 package Skyscrapers;
 
+import java.util.ArrayList;
+
 public class Steps {
     private static int N;
     private int[] index;
@@ -59,5 +61,46 @@ public class Steps {
                 for (int i = N + k + 2 - hint; i <= N; i++)
                     info.getCandidate().get(index[k]).remove(Integer.valueOf(i));
         }
+    }
+
+    public void processOfElimination(SkyscrapersInfo info) {
+        for (int i = N; i >= 1; i--) {
+            processOfEliminationByNumber(info, i);
+        }
+    }
+
+    public void processOfEliminationByNumber(SkyscrapersInfo info, int hint) {
+        for (int i = 0; i < 2 * N; i++) {
+            indexSetting(i);
+            int cnt = 0;
+            int idx = -1;
+            for (int x = 0; x < N; x++) {
+                if (info.getCandidate().get(index[x]).contains(hint)) {
+                    cnt++;
+                    idx = index[x];
+                }
+            }
+            if (cnt == 1 && info.getAnswerBoard()[idx] == 0) {
+                info.resolveCell(idx, hint);
+            }
+        }
+    }
+
+    public int currentPositionBuildingCount(ArrayList<Integer> arr) {
+        int cnt = 0;
+        int currentHeight = 0;
+
+        for (int i = 0; i < N; i++) {
+            if (currentHeight < arr.get(i)) {
+                currentHeight = arr.get(i);
+                cnt++;
+            }
+        }
+
+        return cnt;
+    }
+
+    public void clueElimination(SkyscrapersInfo info) {
+        if (info.getCountUnansweredCell() == 0) return; // if everything is answered, just return
     }
 }
