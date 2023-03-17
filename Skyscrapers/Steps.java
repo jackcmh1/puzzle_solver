@@ -115,11 +115,17 @@ public class Steps {
     }
 
     public void clueElimination(SkyscrapersInfo info) {
-        clueEliminationOnce(info);
+        while(true) {
+            System.out.println("clueElimination one time"); // TODO for debug purpose
+            info.printCandidateBoard(); // TODO for debug purpose
+            if(!clueEliminationOnce(info)) break;
+        }
     }
 
-    public void clueEliminationOnce(SkyscrapersInfo info) {
-        if (info.getCountUnansweredCell() == 0) return; // if everything is answered, just return
+    public boolean clueEliminationOnce(SkyscrapersInfo info) {
+        if (info.getCountUnansweredCell() == 0) return false; // if everything is answered, just return
+
+        int cycle = 0;
 
         while (true) {
             boolean isChanged = false;
@@ -131,9 +137,13 @@ public class Steps {
             }
 
             if (!isChanged) break;
+            cycle++;
         }
 
+        if (cycle == 0) return false;
+
         processOfElimination(info);
+        return true;
     }
 
     private boolean clueEliminationByLine(SkyscrapersInfo info, int idx) { // true if changed anything, if not false
@@ -143,7 +153,7 @@ public class Steps {
         ArrayList<ArrayList<Integer>> compare = new ArrayList<>();
         for (int i = 0; i < N; i++) compare.add(new ArrayList<>());
 
-        System.out.println("number #" + idx); // TODO debug purpose
+//        System.out.println("number #" + idx); // TODO debug purpose
 
         dfs(info, hint, new Stack<Integer>(), 0, compare);
         for (int i = 0; i < N; i++) Collections.sort(compare.get(i));

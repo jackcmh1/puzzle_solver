@@ -31,10 +31,7 @@ public class Skyscrapers {
         int n = info.getBoardSize();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-//                System.out.print(info.getAnswerBoard()[i * n + j] + " ");
-                // for debug purposes
-//                System.out.println("data " + i + "," + j + ": " + info.getCandidate().get(i * n + j) + " ");
-                System.out.print(info.getCandidate().get(i * n + j) + ",\t ");
+                System.out.print(info.getAnswerBoard()[i * n + j] + " ");
             }
             System.out.println();
         }

@@ -42,4 +42,24 @@ public class SkyscrapersInfo {
         for(int i : indexSet)
             candidate.get(i).remove(Integer.valueOf(answer));
     }
+
+    public void printCandidateBoard() {  // for debug purposes
+        int n = boardSize;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(candidate.get(i * n + j) + ",\t ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void printAnswerBoard() { // for debug purposes
+        int n = boardSize;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(answerBoard[i * n + j] + " ");
+            }
+            System.out.println();
+        }
+    }
 }
