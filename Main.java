@@ -6,16 +6,13 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        Skyscrapers exampleX = new Skyscrapers(7, new ArrayList<>(
-                Arrays.asList(
-                        3, 4, 4, 3, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0, 3,
-                        3, 3, 3, 3, 0, 0, 0,
-                        0, 0, 2, 2, 2, 2, 2)
-        ));
+        Skyscrapers exampleX =
+                new Skyscrapers(8,
+                        new String[]{"76380000", "43210400", "00250400", "50"},
+                        new String[]{"","","200","","","","",""});
 
         exampleX.solveBoard();
-        exampleX.answerBoard();
+        exampleX.printAnswerBoard();
 
 //        Skyscrapers example1 = new Skyscrapers(6, new ArrayList<>(
 //                Arrays.asList(
