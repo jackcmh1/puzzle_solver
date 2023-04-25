@@ -115,10 +115,10 @@ public class Steps {
     }
 
     public void clueElimination(SkyscrapersInfo info) {
-        while(true) {
+        while (true) {
             System.out.println("clueElimination one time"); // TODO for debug purpose
             info.printCandidateBoard(); // TODO for debug purpose
-            if(!clueEliminationOnce(info)) break;
+            if (!clueEliminationOnce(info)) break;
         }
     }
 
@@ -130,8 +130,10 @@ public class Steps {
         while (true) {
             boolean isChanged = false;
 
-            for (int i = 0; i < 4 * N; i++) {
-                if (info.getGivenHints().get(i) == 0) continue;
+            for (int i = 0; i < 2 * N; i++) { // changed to 4N -> 2N
+//                if (info.getGivenHints().get(i) == 0) continue;
+                int tmp = getOppositeIndex(i, N);
+                if (info.getGivenHints().get(i) == 0 && info.getGivenHints().get(tmp) == 0) continue;
                 indexSetting(i);
                 if (clueEliminationByLine(info, i)) isChanged = true;
             }
@@ -146,16 +148,28 @@ public class Steps {
         return true;
     }
 
+    private int getOppositeIndex(int index, int N) {
+        if (index >= 0 && index < N) {
+            return 3 * N - 1 - index;
+        } else if (index >= N && index < 2 * N) {
+            return 5 * N - 1 - index;
+        } else {
+            return -1;
+        }
+    }
+
     private boolean clueEliminationByLine(SkyscrapersInfo info, int idx) { // true if changed anything, if not false
         boolean isChanged = false;
 
         int hint = info.getGivenHints().get(idx);
+        int hintOpposite = info.getGivenHints().get(getOppositeIndex(idx, N));
         ArrayList<ArrayList<Integer>> compare = new ArrayList<>();
         for (int i = 0; i < N; i++) compare.add(new ArrayList<>());
 
 //        System.out.println("number #" + idx); // TODO debug purpose
+//        System.out.println("hint = " + hint + " hintOpposite = " + hintOpposite); // TODO debug purpose
 
-        dfs(info, hint, new Stack<Integer>(), 0, compare);
+        dfs(info, hint, hintOpposite, new Stack<Integer>(), 0, compare);
         for (int i = 0; i < N; i++) Collections.sort(compare.get(i));
 
 //        System.out.println("current stack is :"); // TODO debug purpose
@@ -180,15 +194,22 @@ public class Steps {
         return isChanged;
     }
 
-    private void dfs(SkyscrapersInfo info, int hint, Stack<Integer> stack, int x, ArrayList<ArrayList<Integer>> arr) {
+    private void dfs(SkyscrapersInfo info, int hint, int hintOpposite, Stack<Integer> stack, int x, ArrayList<ArrayList<Integer>> arr) {
         if (x == N) {
-            if (currentPositionBuildingCount(stack) == hint) {
-                //System.out.println(stack + " : " + currentPositionBuildingCount(stack)); // TODO debug purpose
+            int rightOrder = currentPositionBuildingCount(stack);
+            Collections.reverse(stack);
+            int reverseOrder = currentPositionBuildingCount(stack);
+            Collections.reverse(stack);
+
+//            System.out.println(rightOrder + ", op " + reverseOrder); // TODO debug purpose
+
+            if ((hint == 0 || rightOrder == hint) && (hintOpposite == 0 || reverseOrder == hintOpposite)) {
+//                System.out.println(stack + " : " + rightOrder + ", opposite " + reverseOrder); // TODO debug purpose
                 for (int i = 0; i < N; i++) {
                     int tmp = stack.get(i);
                     if (!arr.get(i).contains(tmp)) arr.get(i).add(tmp);
                 }
-                //System.out.println(arr); // TODO debug purpose
+//                System.out.println(arr); // TODO debug purpose
             }
             return;
         }
@@ -196,7 +217,7 @@ public class Steps {
         for (int num : info.getCandidate().get(index[x])) {
             if (!stack.contains(num)) {
                 stack.push(num);
-                dfs(info, hint, stack, x + 1, arr);
+                dfs(info, hint, hintOpposite, stack, x + 1, arr);
                 stack.pop();
             }
         }

@@ -7,9 +7,10 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Skyscrapers exampleX =
-                new Skyscrapers(8,
-                        new String[]{"76380000", "43210400", "00250400", "50"},
-                        new String[]{"","","200","","","","",""});
+                new Skyscrapers(5,
+                        //new String[]{"401","4230","2200","300"}
+                        new String[]{"00220","00303","230","303"}
+                        );
 
         exampleX.solveBoard();
         exampleX.printAnswerBoard();
